@@ -5,9 +5,30 @@ import { useState } from "react";
 export default function Home() {
   const [quote, setQuote] = useState(null);
 
-  function getQuote() {
-    setQuote("$4,800 - $7,200");
-  }
+  
+    async function getQuote() {
+  const payload = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    address: document.getElementById("address").value,
+    story: document.getElementById("story").value,
+    feet: document.getElementById("feet").value,
+    quote: "$4,800 - $7,200"
+  };
+
+  await fetch(
+    "https://script.google.com/macros/s/AKfycbyqpAyCZVv2kJ4WPaTLijqFaO-Fz66NjLAmvuJEAqUODR5mKH5xfpKyhDkvi7xBkgmTwA/exec",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    }
+  );
+
+  setQuote("$4,800 - $7,200");
+}
 
   return (
     <main style={{padding:"40px",maxWidth:"1100px",margin:"0 auto",color:"#fff"}}>
@@ -28,11 +49,15 @@ export default function Home() {
       }}>
         <h2>Get Instant Quote</h2>
 
-        <input placeholder="Full Name" style={box}/>
-        <input placeholder="Phone" style={box}/>
-        <input placeholder="Address" style={box}/>
-        <input placeholder="Approx Roofline Feet" style={box}/>
-
+        <input id="name" placeholder="Full Name" style={box}/>
+        <input id="phone" placeholder="Phone" style={box}/>
+        <input id="address" placeholder="Address" style={box}/>
+        <select id="story" style={box}>
+           <option>Single Story</option>
+           <option>Two Story</option>
+          </select>
+         <input id="feet" placeholder="Approx Roofline Feet" style={box}/>
+       
         <button
           onClick={getQuote}
           style={{
